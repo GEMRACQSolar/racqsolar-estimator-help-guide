@@ -2,14 +2,14 @@
   <div>
     <!-- Overlay -->
     <div 
-      v-if="showHelp" 
+      v-if="content.visible" 
       class="help-guide-overlay"
       @click="closeHelp"
     ></div>
 
     <!-- Help Guide Panel -->
     <div 
-      v-if="showHelp"
+      v-if="content.visible"
       ref="helpGuide"
       class="help-guide"
       :style="guideStyle"
@@ -91,7 +91,7 @@ export default {
     content: {
       type: Object,
       default: () => ({
-        showHelp: false,
+        visible: false,
         activeSection: ''
       })
     }
@@ -99,7 +99,6 @@ export default {
   
   data() {
     return {
-      showHelp: false,
       searchQuery: '',
       activeSection: null,
       isDragging: false,
@@ -286,14 +285,31 @@ export default {
     }
   },
   
+  watch: {
+    'content.visible': {
+      handler(newVal) {
+        if (newVal) {
+          this.$emit('trigger-event', {
+            name: 'help:opened',
+            payload: {
+              timestamp: new Date().toISOString()
+            }
+          })
+          // Center on first open if never positioned
+          if (this.position.x === window.innerWidth - 520) {
+            this.centerGuide()
+          }
+        }
+      },
+      immediate: true
+    }
+  },
+  
   mounted() {
     // Listen for toggle event from header
     window.addEventListener('toggleHelpGuide', this.toggleHelp)
     document.addEventListener('mousemove', this.handleMouseMove)
     document.addEventListener('mouseup', this.handleMouseUp)
-    
-    // Center the guide on first open
-    this.centerGuide()
   },
   
   beforeDestroy() {
@@ -304,19 +320,13 @@ export default {
   
   methods: {
     toggleHelp() {
-      this.showHelp = !this.showHelp
-      if (this.showHelp) {
-        this.$emit('trigger-event', {
-          name: 'help:opened',
-          payload: {
-            timestamp: new Date().toISOString()
-          }
-        })
-      }
+      // Toggle the visible property through WeWeb
+      this.$emit('update:visible', !this.content.visible)
     },
     
     closeHelp() {
-      this.showHelp = false
+      // Update visible property through WeWeb
+      this.$emit('update:visible', false)
       this.activeSection = null
       this.searchQuery = ''
       this.$emit('trigger-event', {
