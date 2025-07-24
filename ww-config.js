@@ -5,7 +5,7 @@ export default {
     },
     icon: "info-circle",
     customStylePropertiesOrder: [],
-    customSettingsPropertiesOrder: ["visible"]
+    customSettingsPropertiesOrder: ["visible", "activeSection"]
   },
   
   properties: {
@@ -16,12 +16,28 @@ export default {
       type: "OnOff",
       bindable: true,
       defaultValue: false
+    },
+    activeSection: {
+      label: {
+        en: "Active Section"
+      },
+      type: "Text",
+      bindable: true,
+      defaultValue: ""
     }
   },
   
   triggerEvents: [
     {
-      name: "close:help-guide",
+      name: "help:opened",
+      label: { en: "Help Guide Opened" },
+      event: {
+        timestamp: ""
+      },
+      default: false
+    },
+    {
+      name: "help:closed",
       label: { en: "Help Guide Closed" },
       event: {
         timestamp: ""
