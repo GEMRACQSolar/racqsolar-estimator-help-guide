@@ -1,575 +1,690 @@
 <template>
-  <transition name="help-guide-fade">
-    <div v-if="content.visible" class="help-guide-overlay" @click.self="closeHelpGuide">
-      <div class="help-guide-container">
-        <!-- Header -->
-        <div class="help-guide-header">
-          <h2 class="help-guide-title">
-            <svg class="help-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            Solar Estimator Help Guide
-          </h2>
-          <button class="close-button" @click="closeHelpGuide" type="button" aria-label="Close help guide">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
+  <div>
+    <!-- Overlay -->
+    <div 
+      v-if="showHelp" 
+      class="help-guide-overlay"
+      @click="closeHelp"
+    ></div>
+
+    <!-- Help Guide Panel -->
+    <div 
+      v-if="showHelp"
+      ref="helpGuide"
+      class="help-guide"
+      :style="guideStyle"
+    >
+      <!-- Draggable Header -->
+      <div 
+        class="help-guide-header"
+        @mousedown="startDrag"
+      >
+        <div class="help-guide-title">
+          <div class="help-icon">?</div>
+          <span>Solar Estimator Help Guide</span>
+        </div>
+        <button 
+          class="close-button"
+          @click="closeHelp"
+          type="button"
+          aria-label="Close help guide"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Content Area -->
+      <div class="help-guide-content">
+        <!-- Search Box -->
+        <div class="search-container">
+          <input 
+            v-model="searchQuery"
+            type="text"
+            class="search-input"
+            placeholder="Search for help topics..."
+          />
+        </div>
+
+        <!-- Accordion Sections -->
+        <div v-for="(section, index) in filteredSections" :key="index" class="accordion-section">
+          <button 
+            class="accordion-header"
+            :class="{ active: activeSection === index }"
+            @click="toggleSection(index)"
+            type="button"
+          >
+            <span>{{ section.title }}</span>
+            <svg class="accordion-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 7.5L10 12.5L15 7.5"/>
             </svg>
           </button>
-        </div>
-
-        <!-- Content -->
-        <div class="help-guide-content">
-          <!-- Getting Started Section -->
-          <section class="help-section">
-            <h3 class="section-title">Getting Started</h3>
-            <p class="section-intro">Follow these steps to generate your personalized solar estimate:</p>
-            
-            <div class="help-item">
-              <span class="step-number">1</span>
-              <div class="step-content">
-                <h4>Complete Personal Information</h4>
-                <p>All fields in the Personal Information section are <strong>mandatory</strong>. This ensures we can provide you with an accurate estimate and contact you with your results.</p>
-              </div>
-            </div>
-
-            <div class="help-item">
-              <span class="step-number">2</span>
-              <div class="step-content">
-                <h4>Select Your System Type</h4>
-                <p>The <strong>"What type of system are you interested in?"</strong> field is mandatory. After selecting, click <span class="highlight-button">Confirm system selection</span> to ensure relevant packages appear below.</p>
-              </div>
-            </div>
-
-            <div class="help-item">
-              <span class="step-number">3</span>
-              <div class="step-content">
-                <h4>Enter Your Energy Usage</h4>
-                <p>For personalized recommendations, fill in the <strong>Monthly Energy Bill</strong> field. This helps the estimator highlight the most suitable package for your needs.</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Sales Coach Section -->
-          <section class="help-section">
-            <h3 class="section-title">Using the Sales Coach</h3>
-            <p class="section-intro">Our intelligent Sales Coach provides personalized insights and recommendations.</p>
-            
-            <div class="coach-requirements">
-              <h4>Requirements for Sales Coach:</h4>
-              <ul>
-                <li>System type selection (mandatory)</li>
-                <li>Monthly energy bill data (for accurate estimates)</li>
-              </ul>
-              <p class="note">The Sales Coach uses this information to provide savings estimates and recommendations on your selected package.</p>
-            </div>
-          </section>
-
-          <!-- Optional Fields Section -->
-          <section class="help-section">
-            <h3 class="section-title">Additional Information</h3>
-            <p>The <strong>System Preferences</strong> and <strong>House Details</strong> sections provide valuable information for a more accurate estimate but are not mandatory. These can be skipped if you need a quick estimate.</p>
-          </section>
-
-          <!-- Package Generation Section -->
-          <section class="help-section">
-            <h3 class="section-title">Generating Your Packages</h3>
-            
-            <div class="help-item">
-              <div class="icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                  <line x1="9" y1="9" x2="15" y2="9"/>
-                  <line x1="9" y1="15" x2="15" y2="15"/>
-                </svg>
-              </div>
-              <div class="step-content">
-                <p>Click <span class="highlight-button">Generate Package Options</span> to view recommended packages based on your system preference and energy usage.</p>
-                <p class="warning">⚠️ Note: Packages will only appear if both system type and energy bill data are provided.</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Interactive Features Section -->
-          <section class="help-section">
-            <h3 class="section-title">Interactive Features</h3>
-            
-            <div class="feature-grid">
-              <div class="feature-item">
-                <h4>Share with Sales Coach</h4>
-                <p>Click <span class="highlight-button">Share data with Sales Coach</span> to send your form data and selected package to the Sales Coach for detailed analysis.</p>
-              </div>
-              
-              <div class="feature-item">
-                <h4>Dynamic Questions</h4>
-                <p>After sharing data, dynamic questions appear in the chat interface. Click any suggested question or type your own to interact with the bot.</p>
-              </div>
-              
-              <div class="feature-item">
-                <h4>Contextual Responses</h4>
-                <p>The Sales Coach remembers your information throughout the conversation, providing personalized recommendations based on your specific situation.</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Quote Generation Section -->
-          <section class="help-section">
-            <h3 class="section-title">Finalizing Your Quote</h3>
-            
-            <ol class="process-list">
-              <li>
-                <strong>Review Summary:</strong> Open the "Quote Summary" section and click <span class="highlight-button">Update Summary</span> to consolidate all your information.
-              </li>
-              <li>
-                <strong>Verify Data:</strong> Review all fields carefully. Any missing mandatory fields will be highlighted.
-              </li>
-              <li>
-                <strong>Generate Quote:</strong> Click <span class="highlight-button">Generate Quote</span> to create your personalized estimate.
-              </li>
-              <li>
-                <strong>Send Estimate:</strong> Click <span class="highlight-button">Finalize and Send Estimate</span> to receive your quote via email.
-              </li>
-            </ol>
-          </section>
-
-          <!-- Next Steps Section -->
-          <section class="help-section">
-            <h3 class="section-title">What Happens Next?</h3>
-            <div class="next-steps">
-              <p>After receiving your estimate email, you can:</p>
-              <ul>
-                <li>Review your personalized solar solution details</li>
-                <li>Click "Request a Formal Quote" in the email</li>
-                <li>Receive a comprehensive proposal within 48 hours (working days)</li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- Footer -->
-          <div class="help-footer">
-            <p>Need additional assistance? Contact our solar experts at <strong>1300 RACQ SOLAR</strong></p>
+          <div 
+            class="accordion-content"
+            :class="{ active: activeSection === index }"
+          >
+            <div v-html="section.content"></div>
           </div>
         </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+          <p>Need assistance? Contact <a href="mailto:automations@racqsolar.com.au">automations@racqsolar.com.au</a></p>
+        </div>
       </div>
+
+      <!-- Resize Handle -->
+      <div 
+        class="resize-handle"
+        @mousedown="startResize"
+      ></div>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'RACQHelpGuide',
+  name: 'RACQHelpGuideComponent',
   
   props: {
     content: {
       type: Object,
       default: () => ({
-        visible: false
+        showHelp: false,
+        activeSection: ''
       })
     }
   },
   
-  methods: {
-    closeHelpGuide() {
-      this.$emit('trigger-event', {
-        name: 'close:help-guide',
-        event: {
-          timestamp: new Date().toISOString()
+  data() {
+    return {
+      showHelp: false,
+      searchQuery: '',
+      activeSection: null,
+      isDragging: false,
+      isResizing: false,
+      startX: 0,
+      startY: 0,
+      startWidth: 0,
+      startHeight: 0,
+      position: {
+        x: window.innerWidth - 520,
+        y: 80
+      },
+      size: {
+        width: 500,
+        height: 600
+      },
+      sections: [
+        {
+          title: 'Personal Information',
+          content: `
+            <h3>CUSTOMER DETAILS</h3>
+            <p>Enter the customer's personal information accurately. This data will be used for quote generation and follow-up communications.</p>
+            <ul>
+              <li>First Name and Last Name are mandatory fields</li>
+              <li>Email address must be valid for quote delivery</li>
+              <li>Phone number should include area code</li>
+              <li>Postcode determines available rebates and solar zones</li>
+            </ul>
+            <div class="tip-box">
+              <strong>Tip:</strong> Double-check the email address to ensure the customer receives their quote.
+            </div>
+          `
+        },
+        {
+          title: 'System Preferences & Energy Usage',
+          content: `
+            <h3>SYSTEM TYPE</h3>
+            <p>Select the appropriate system configuration based on the customer's requirements:</p>
+            <ul>
+              <li><strong>Solar Only:</strong> Standard photovoltaic system without battery storage</li>
+              <li><strong>Solar + Battery:</strong> Includes energy storage for evening use</li>
+              <li><strong>Battery Only:</strong> For existing solar system upgrades</li>
+            </ul>
+            
+            <h3>ENERGY CONSUMPTION</h3>
+            <p>Accurate usage data ensures correct system sizing:</p>
+            <ul>
+              <li>Request a recent electricity bill for accurate kWh figures</li>
+              <li>Use seasonal average if available</li>
+              <li>Consider future energy needs (pool, EV charging, etc.)</li>
+            </ul>
+            
+            <h3>TIME OF USE</h3>
+            <p>Understanding consumption patterns optimises system design:</p>
+            <ul>
+              <li>High daytime use favours larger solar arrays</li>
+              <li>Evening/night use indicates battery storage benefits</li>
+              <li>Consider work-from-home arrangements</li>
+            </ul>
+          `
+        },
+        {
+          title: 'House Details',
+          content: `
+            <h3>PROPERTY INFORMATION</h3>
+            <p>Accurate property details ensure feasibility and correct installation pricing:</p>
+            
+            <h3>ROOF TYPE</h3>
+            <ul>
+              <li><strong>Tin/Colorbond:</strong> Standard installation, most cost-effective</li>
+              <li><strong>Tile:</strong> Requires tile brackets, slightly higher installation cost</li>
+              <li><strong>Kliplok:</strong> Requires special clamps, may affect warranty</li>
+            </ul>
+            
+            <h3>STOREY HEIGHT</h3>
+            <ul>
+              <li>Single storey: Standard installation</li>
+              <li>Double storey: Additional safety equipment required</li>
+              <li>Three+ storeys: Specialist equipment, higher costs</li>
+            </ul>
+            
+            <h3>ROOF PITCH</h3>
+            <p>Affects both safety requirements and system performance:</p>
+            <ul>
+              <li>Flat (<15°): May require tilt frames</li>
+              <li>Standard (15-30°): Optimal for most locations</li>
+              <li>Steep (>30°): Additional safety measures needed</li>
+            </ul>
+            
+            <div class="tip-box">
+              <strong>Tip:</strong> Use Google Earth for preliminary roof assessments before site visits.
+            </div>
+          `
+        },
+        {
+          title: 'Package Selection',
+          content: `
+            <h3>CHOOSING THE RIGHT PACKAGE</h3>
+            <p>Package selection should balance customer needs, budget, and technical requirements:</p>
+            
+            <h3>SYSTEM SIZING</h3>
+            <ul>
+              <li>Review daily average consumption from bills</li>
+              <li>Consider roof space limitations</li>
+              <li>Factor in future energy needs</li>
+              <li>Check grid connection limits with DNSP</li>
+            </ul>
+            
+            <h3>RECOMMENDED PACKAGES</h3>
+            <p>The system highlights recommended options based on:</p>
+            <ul>
+              <li>Energy consumption patterns</li>
+              <li>Available roof space</li>
+              <li>Budget considerations</li>
+              <li>Payback period optimisation</li>
+            </ul>
+            
+            <h3>CUSTOMISATION OPTIONS</h3>
+            <ul>
+              <li>Panel upgrades for premium efficiency</li>
+              <li>Inverter sizing for future expansion</li>
+              <li>Battery capacity based on evening usage</li>
+              <li>Monitoring and smart home integration</li>
+            </ul>
+          `
+        },
+        {
+          title: 'Quote Summary',
+          content: `
+            <h3>REVIEWING THE QUOTE</h3>
+            <p>Before finalising, ensure all details are correct:</p>
+            
+            <h3>KEY ITEMS TO VERIFY</h3>
+            <ul>
+              <li>Customer details and contact information</li>
+              <li>System specifications match discussions</li>
+              <li>Installation address is correct</li>
+              <li>All applicable rebates are included</li>
+            </ul>
+            
+            <h3>FINANCIAL SUMMARY</h3>
+            <ul>
+              <li><strong>System Cost:</strong> Total equipment and installation</li>
+              <li><strong>Rebates:</strong> Federal and state incentives applied</li>
+              <li><strong>Net Cost:</strong> Final amount payable by customer</li>
+              <li><strong>Savings Estimate:</strong> Based on current usage and tariffs</li>
+            </ul>
+            
+            <h3>NEXT STEPS</h3>
+            <ul>
+              <li>Generate PDF quote for customer</li>
+              <li>Schedule follow-up within 48 hours</li>
+              <li>Book site inspection if proceeding</li>
+              <li>Prepare finance options if requested</li>
+            </ul>
+            
+            <div class="tip-box">
+              <strong>Tip:</strong> Always offer to walk through the quote with the customer to address any questions.
+            </div>
+          `
         }
+      ]
+    }
+  },
+  
+  computed: {
+    filteredSections() {
+      if (!this.searchQuery) return this.sections
+      
+      const query = this.searchQuery.toLowerCase()
+      return this.sections.filter(section => {
+        return section.title.toLowerCase().includes(query) ||
+               section.content.toLowerCase().includes(query)
       })
+    },
+    
+    guideStyle() {
+      return {
+        left: `${this.position.x}px`,
+        top: `${this.position.y}px`,
+        width: `${this.size.width}px`,
+        height: `${this.size.height}px`
+      }
     }
   },
   
   mounted() {
-    // Close on ESC key
-    const handleEscape = (e) => {
-      if (e.key === 'Escape' && this.content.visible) {
-        this.closeHelpGuide()
-      }
-    }
-    window.addEventListener('keydown', handleEscape)
+    // Listen for toggle event from header
+    window.addEventListener('toggleHelpGuide', this.toggleHelp)
+    document.addEventListener('mousemove', this.handleMouseMove)
+    document.addEventListener('mouseup', this.handleMouseUp)
     
-    this.$once('hook:beforeDestroy', () => {
-      window.removeEventListener('keydown', handleEscape)
-    })
+    // Center the guide on first open
+    this.centerGuide()
+  },
+  
+  beforeDestroy() {
+    window.removeEventListener('toggleHelpGuide', this.toggleHelp)
+    document.removeEventListener('mousemove', this.handleMouseMove)
+    document.removeEventListener('mouseup', this.handleMouseUp)
+  },
+  
+  methods: {
+    toggleHelp() {
+      this.showHelp = !this.showHelp
+      if (this.showHelp) {
+        this.$emit('trigger-event', {
+          name: 'help:opened',
+          payload: {
+            timestamp: new Date().toISOString()
+          }
+        })
+      }
+    },
+    
+    closeHelp() {
+      this.showHelp = false
+      this.activeSection = null
+      this.searchQuery = ''
+      this.$emit('trigger-event', {
+        name: 'help:closed',
+        payload: {
+          timestamp: new Date().toISOString()
+        }
+      })
+    },
+    
+    toggleSection(index) {
+      this.activeSection = this.activeSection === index ? null : index
+    },
+    
+    centerGuide() {
+      this.position.x = (window.innerWidth - this.size.width) / 2
+      this.position.y = (window.innerHeight - this.size.height) / 2
+    },
+    
+    startDrag(e) {
+      this.isDragging = true
+      this.startX = e.clientX - this.position.x
+      this.startY = e.clientY - this.position.y
+      e.preventDefault()
+    },
+    
+    startResize(e) {
+      this.isResizing = true
+      this.startX = e.clientX
+      this.startY = e.clientY
+      this.startWidth = this.size.width
+      this.startHeight = this.size.height
+      e.preventDefault()
+    },
+    
+    handleMouseMove(e) {
+      if (this.isDragging) {
+        this.position.x = e.clientX - this.startX
+        this.position.y = e.clientY - this.startY
+        
+        // Keep within viewport
+        this.position.x = Math.max(0, Math.min(this.position.x, window.innerWidth - this.size.width))
+        this.position.y = Math.max(0, Math.min(this.position.y, window.innerHeight - this.size.height))
+      }
+      
+      if (this.isResizing) {
+        this.size.width = Math.max(400, this.startWidth + e.clientX - this.startX)
+        this.size.height = Math.max(300, this.startHeight + e.clientY - this.startY)
+      }
+    },
+    
+    handleMouseUp() {
+      this.isDragging = false
+      this.isResizing = false
+    }
   }
 }
 </script>
 
 <style scoped>
-/* Overlay and animations */
+/* Help Guide Container */
 .help-guide-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 1rem;
-  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9998;
+  animation: fadeIn 0.3s ease;
 }
 
-.help-guide-container {
-  background-color: #001f3f;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 800px;
-  max-height: 90vh;
+.help-guide {
+  position: fixed;
+  background: #001f3f;
+  color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
+  min-width: 400px;
+  min-height: 300px;
+  animation: slideIn 0.3s ease;
 }
 
-/* Header */
+/* Draggable header */
 .help-guide-header {
+  background: #001f3f;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: move;
+  user-select: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px 8px 0 0;
+  flex-shrink: 0;
 }
 
 .help-guide-title {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin: 0;
-  color: #FFFFFF;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
 .help-icon {
-  width: 28px;
-  height: 28px;
-  color: #FFE600;
+  width: 24px;
+  height: 24px;
+  background: #FFE600;
+  color: #001f3f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .close-button {
-  width: 40px;
-  height: 40px;
+  background: transparent;
   border: none;
-  background-color: transparent;
   color: #FFFFFF;
   cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.5rem;
   transition: all 0.2s ease;
+  border-radius: 4px;
 }
 
 .close-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.close-button svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* Content */
+/* Content area */
 .help-guide-content {
   flex: 1;
   overflow-y: auto;
-  padding: 2rem;
-  color: #FFFFFF;
-}
-
-/* Sections */
-.help-section {
-  margin-bottom: 2.5rem;
-}
-
-.help-section:last-child {
-  margin-bottom: 0;
-}
-
-.section-title {
-  color: #FFE600;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.section-intro {
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
-
-/* Help items */
-.help-item {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  align-items: flex-start;
-}
-
-.step-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: #FFE600;
-  color: #001f3f;
-  border-radius: 50%;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.step-content h4 {
-  margin: 0 0 0.5rem 0;
-  color: #FFFFFF;
-  font-size: 1.1rem;
-}
-
-.step-content p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-}
-
-/* Coach requirements */
-.coach-requirements {
-  background-color: rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
-  border-radius: 8px;
+  min-height: 0;
+}
+
+/* Search box */
+.search-container {
+  margin-bottom: 1.5rem;
+  position: sticky;
+  top: -1.5rem;
+  background: #001f3f;
+  padding: 0 0 1rem 0;
+  z-index: 5;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.search-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #FFE600;
+}
+
+/* Accordion styles */
+.accordion-section {
+  margin-bottom: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-.coach-requirements h4 {
-  margin: 0 0 0.75rem 0;
-  color: #FFE600;
-}
-
-.coach-requirements ul {
-  margin: 0 0 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.coach-requirements li {
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.5rem;
-}
-
-.note {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
-  font-style: italic;
-}
-
-/* Feature grid */
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-}
-
-.feature-item {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 1.25rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.feature-item h4 {
-  margin: 0 0 0.75rem 0;
-  color: #FFE600;
+.accordion-header {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  text-align: left;
   font-size: 1rem;
-}
-
-.feature-item p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-/* Process list */
-.process-list {
-  margin: 0;
-  padding-left: 1.5rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.process-list li {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.process-list strong {
-  color: #FFFFFF;
-}
-
-/* Highlight elements */
-.highlight-button {
-  background-color: rgba(255, 230, 0, 0.2);
-  color: #FFE600;
-  padding: 0.125rem 0.5rem;
-  border-radius: 4px;
   font-weight: 500;
-}
-
-.warning {
-  color: #FFE600;
-  font-size: 0.9rem;
-}
-
-/* Icon wrapper */
-.icon-wrapper {
-  width: 32px;
-  height: 32px;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #FFE600;
+  justify-content: space-between;
+}
+
+.accordion-header:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.accordion-header.active {
+  background: rgba(255, 230, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.accordion-icon {
+  transition: transform 0.2s ease;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
-.icon-wrapper svg {
-  width: 24px;
-  height: 24px;
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
 }
 
-/* Next steps */
-.next-steps {
-  background-color: rgba(255, 230, 0, 0.1);
+.accordion-content {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.accordion-content.active {
   padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 230, 0, 0.3);
+  max-height: 2000px;
 }
 
-.next-steps p {
-  margin: 0 0 1rem 0;
-  color: #FFFFFF;
-  font-weight: 500;
+.accordion-content >>> h3 {
+  color: #FFE600;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.next-steps ul {
-  margin: 0;
-  padding-left: 1.5rem;
-}
-
-.next-steps li {
+.accordion-content >>> p,
+.accordion-content >>> li {
   color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.accordion-content >>> ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.accordion-content >>> ul li {
+  position: relative;
+  padding-left: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
-/* Footer */
-.help-footer {
-  margin-top: 3rem;
-  padding-top: 2rem;
+.accordion-content >>> ul li:before {
+  content: "•";
+  color: #FFE600;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.accordion-content >>> .tip-box {
+  background: rgba(255, 230, 0, 0.1);
+  border-left: 3px solid #FFE600;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.accordion-content >>> .tip-box strong {
+  color: #FFE600;
+}
+
+/* Contact section */
+.contact-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
 }
 
-.help-footer p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.7);
+.contact-section p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
 }
 
-.help-footer strong {
+.contact-section a {
   color: #FFE600;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-section a:hover {
+  text-decoration: underline;
+}
+
+/* Resize handle */
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: se-resize;
+  background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.3) 50%);
+  border-radius: 0 0 8px 0;
 }
 
 /* Animations */
-.help-guide-fade-enter-active,
-.help-guide-fade-leave-active {
-  transition: opacity 0.3s ease;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.help-guide-fade-enter,
-.help-guide-fade-leave-to {
-  opacity: 0;
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.help-guide-fade-enter .help-guide-container,
-.help-guide-fade-leave-to .help-guide-container {
-  transform: scale(0.95);
-}
-
-.help-guide-fade-enter-active .help-guide-container,
-.help-guide-fade-leave-active .help-guide-container {
-  transition: transform 0.3s ease;
-}
-
-/* Scrollbar styling */
-.help-guide-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.help-guide-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.help-guide-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.help-guide-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Responsive design */
+/* Responsive */
 @media (max-width: 768px) {
-  .help-guide-overlay {
-    padding: 0;
-  }
-  
-  .help-guide-container {
-    max-height: 100vh;
-    height: 100vh;
-    border-radius: 0;
-  }
-  
-  .help-guide-header {
-    padding: 1.25rem;
+  .help-guide {
+    min-width: 350px;
+    max-width: calc(100vw - 20px);
   }
   
   .help-guide-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
   
-  .help-guide-content {
-    padding: 1.5rem;
+  .accordion-header {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9375rem;
   }
   
-  .feature-grid {
-    grid-template-columns: 1fr;
+  .accordion-content.active {
+    padding: 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
+  .help-guide {
+    min-width: 300px;
+    position: fixed;
+    top: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    height: calc(100vh - 20px) !important;
+  }
+  
   .help-guide-header {
-    padding: 1rem;
+    cursor: default;
   }
   
-  .help-guide-title {
-    font-size: 1.125rem;
-  }
-  
-  .help-icon {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .help-guide-content {
-    padding: 1.25rem;
-  }
-  
-  .section-title {
-    font-size: 1.125rem;
+  .resize-handle {
+    display: none;
   }
 }
 </style>
