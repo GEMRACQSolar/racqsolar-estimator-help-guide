@@ -1,60 +1,87 @@
 # RACQ Solar Estimator Help Guide Component
 
-A WeWeb component that displays a help guide popup for the RACQ Solar Estimator application.
+A floating, draggable help guide panel for the RACQ Solar Estimator application, designed for internal staff use.
 
 ## Features
 
-- **Modal Popup**: Full-screen overlay with centered content
+- **Floating Panel**: Draggable and resizable help guide window
+- **Fixed Question Mark Icon**: Proper '?' symbol in yellow circle
+- **Accordion Navigation**: Collapsible sections (closed by default)
+- **Search Functionality**: Quick topic search across all content
+- **UK/Australian English**: Localised spelling and terminology
+- **Staff-Oriented Content**: Written for internal team use
 - **Responsive Design**: Adapts to mobile and desktop screens
-- **Keyboard Support**: Close with ESC key
-- **Smooth Animations**: Fade in/out transitions
-- **Comprehensive Content**: Step-by-step guide for using the estimator
 
 ## Usage in WeWeb
 
 ### Properties
 
-- `visible` (Boolean): Controls the visibility of the help guide popup
+- `visible` (Boolean): Controls the visibility of the help guide
+- `activeSection` (String): Pre-open a specific section by title
 
 ### Events
 
-- `close:help-guide`: Emitted when the help guide is closed
+- `help:opened`: Emitted when the help guide is opened
+- `help:closed`: Emitted when the help guide is closed
 
 ### Implementation
 
 1. Add the component to your WeWeb page
-2. Bind the `visible` property to a variable (default: false)
-3. Listen for the `show:help-guide` event from the header component to set `visible` to true
-4. Listen for the `close:help-guide` event to set `visible` to false
+2. Listen for the `toggle:help` event from the header component
+3. Set up workflows to manage visibility
 
 ### Example Workflow
 
 ```javascript
-// Show help guide when header button is clicked
-On header 'show:help-guide' event:
-  - Set helpGuideVisible = true
+// Toggle help guide when header button is clicked
+On header 'toggle:help' event:
+  - Execute component action: toggleHelp
 
-// Hide help guide when closed
-On help-guide 'close:help-guide' event:
-  - Set helpGuideVisible = false
+// Or manually control visibility
+On custom trigger:
+  - Set component.visible = true/false
 ```
 
 ## Content Sections
 
-1. **Getting Started**: Essential steps for generating an estimate
-2. **Using the Sales Coach**: Requirements and functionality
-3. **Additional Information**: Optional fields explanation
-4. **Generating Your Packages**: How to create package options
-5. **Interactive Features**: Chat interface and dynamic questions
-6. **Finalizing Your Quote**: Step-by-step quote generation process
-7. **What Happens Next**: Post-estimate workflow
+1. **Personal Information**: Customer data entry guidelines
+2. **System Preferences & Energy Usage**: System configuration and consumption analysis
+3. **House Details**: Property specifications and installation considerations
+4. **Package Selection**: System sizing and package recommendations
+5. **Quote Summary**: Final review and next steps
+
+## Features
+
+### Draggable Window
+- Click and drag the header to reposition
+- Window stays within viewport bounds
+- Position persists during session
+
+### Resizable
+- Drag the bottom-right corner to resize
+- Minimum size: 400x300px
+- Maximum size: 90% of viewport
+
+### Search
+- Real-time filtering of help topics
+- Searches both titles and content
+- Highlights matching sections
+
+### Accordion Navigation
+- All sections closed by default
+- Single section open at a time
+- Smooth expand/collapse animations
 
 ## Styling
 
-- Matches RACQ Solar brand colors (#001f3f, #FFE600)
+- RACQ Solar brand colours (#001f3f, #FFE600)
 - Consistent with header component design
-- Custom scrollbar styling
-- Highlighted buttons and important information
+- Professional dark theme
+- Clear visual hierarchy
+
+## Support
+
+For assistance, contact: automations@racqsolar.com.au
 
 ## Development
 
@@ -63,9 +90,5 @@ To update this component:
 1. Clone the repository
 2. Make changes to `src/wwElement.vue`
 3. Update version in `package.json`
-4. Push directly to main branch (do not use branches for WeWeb components)
+4. Push directly to main branch
 5. Wait 2-3 minutes for WeWeb to rebuild
-
-## Support
-
-For issues or questions, contact the RACQ Solar development team.
