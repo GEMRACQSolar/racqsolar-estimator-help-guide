@@ -47,6 +47,19 @@
           />
         </div>
 
+        <!-- Getting Started Section -->
+        <div class="getting-started-section">
+          <h2>Getting Started</h2>
+          <p>To generate an accurate solar estimate for your customer, you'll need to complete the following sections:</p>
+          <ol>
+            <li><strong>Personal Information</strong> - Customer contact details</li>
+            <li><strong>System Preferences & Energy Usage</strong> - Power consumption and system requirements</li>
+            <li><strong>House Details</strong> - Property specifications for installation</li>
+            <li><strong>Package Selection</strong> - Choose from recommended solar packages</li>
+            <li><strong>Quote Summary</strong> - Review and finalise the estimate</li>
+          </ol>
+        </div>
+
         <!-- Accordion Sections -->
         <div v-for="(section, index) in filteredSections" :key="index" class="accordion-section">
           <button 
@@ -120,76 +133,106 @@ export default {
           title: 'Personal Information',
           content: `
             <h3>CUSTOMER DETAILS</h3>
-            <p>Enter the customer's personal information accurately. This data will be used for quote generation and follow-up communications.</p>
+            <p>This section captures essential customer information for quote generation and follow-up.</p>
             <ul>
-              <li>First Name and Last Name are mandatory fields</li>
-              <li>Email address must be valid for quote delivery</li>
-              <li>Phone number should include area code</li>
-              <li>Postcode determines available rebates and solar zones</li>
+              <li><strong>Required Fields:</strong> First Name, Last Name, Email, Phone, and Postcode</li>
+              <li>Email address must be valid - quotes are automatically sent to this address</li>
+              <li>Phone number should include area code for SMS notifications</li>
+              <li>Postcode determines available rebates and solar zone classifications</li>
             </ul>
+            
+            <h3>ADDITIONAL INFORMATION</h3>
+            <p>Optional fields that enhance customer experience:</p>
+            <ul>
+              <li><strong>Secondary Contact:</strong> Alternative person for installation coordination</li>
+              <li><strong>Preferred Contact Method:</strong> Email, phone, or SMS preferences</li>
+              <li><strong>Referral Source:</strong> Track marketing effectiveness</li>
+              <li><strong>Special Requirements:</strong> Accessibility needs or site-specific considerations</li>
+            </ul>
+            
             <div class="tip-box">
-              <strong>Tip:</strong> Double-check the email address to ensure the customer receives their quote.
+              <strong>Tip:</strong> Double-check the email address and phone number. Incorrect details will prevent the customer from receiving their quote and booking confirmations.
             </div>
           `
         },
         {
           title: 'System Preferences & Energy Usage',
           content: `
-            <h3>SYSTEM TYPE</h3>
-            <p>Select the appropriate system configuration based on the customer's requirements:</p>
+            <h3>SYSTEM TYPE SELECTION</h3>
+            <p>Choose the appropriate system configuration:</p>
             <ul>
-              <li><strong>Solar Only:</strong> Standard photovoltaic system without battery storage</li>
-              <li><strong>Solar + Battery:</strong> Includes energy storage for evening use</li>
-              <li><strong>Battery Only:</strong> For existing solar system upgrades</li>
+              <li><strong>Solar Only:</strong> Standard PV system without battery storage</li>
+              <li><strong>Solar + Battery:</strong> Complete system with energy storage for evening use</li>
+              <li><strong>Battery Only:</strong> Add battery to existing solar installation</li>
             </ul>
             
-            <h3>ENERGY CONSUMPTION</h3>
+            <h3>USING THE SALES COACH</h3>
+            <p>The Sales Coach AI assistant requires specific information to generate optimal recommendations:</p>
+            <ul>
+              <li><strong>Energy Usage Data:</strong> Enter accurate kWh consumption from recent bills</li>
+              <li><strong>Usage Patterns:</strong> Specify when electricity is primarily used (day/evening)</li>
+              <li><strong>Future Needs:</strong> Consider upcoming changes (pool, EV, home office)</li>
+            </ul>
+            <p>Click "Chat with Sales Coach" to receive personalised system recommendations based on the customer's specific situation.</p>
+            
+            <h3>ENERGY CONSUMPTION ANALYSIS</h3>
             <p>Accurate usage data ensures correct system sizing:</p>
             <ul>
-              <li>Request a recent electricity bill for accurate kWh figures</li>
-              <li>Use seasonal average if available</li>
-              <li>Consider future energy needs (pool, EV charging, etc.)</li>
+              <li>Request the last 4 electricity bills for seasonal variations</li>
+              <li>Calculate daily average: Total kWh ÷ billing days</li>
+              <li>Note any unusual consumption periods (holidays, renovations)</li>
+              <li>Consider future energy needs: EVs, pools, home extensions</li>
             </ul>
             
-            <h3>TIME OF USE</h3>
-            <p>Understanding consumption patterns optimises system design:</p>
+            <h3>TIME OF USE PATTERNS</h3>
+            <p>Understanding when energy is consumed optimises system design:</p>
             <ul>
-              <li>High daytime use favours larger solar arrays</li>
-              <li>Evening/night use indicates battery storage benefits</li>
-              <li>Consider work-from-home arrangements</li>
+              <li><strong>High Daytime Use:</strong> Larger solar arrays maximise self-consumption</li>
+              <li><strong>Evening/Night Use:</strong> Battery storage essential for savings</li>
+              <li><strong>Mixed Usage:</strong> Balanced system with moderate battery capacity</li>
+              <li>Consider work-from-home arrangements and lifestyle changes</li>
             </ul>
           `
         },
         {
           title: 'House Details',
           content: `
-            <h3>PROPERTY INFORMATION</h3>
-            <p>Accurate property details ensure feasibility and correct installation pricing:</p>
+            <h3>PROPERTY SPECIFICATIONS</h3>
+            <p>Accurate property details ensure installation feasibility and correct pricing.</p>
             
-            <h3>ROOF TYPE</h3>
+            <h3>ROOF TYPE & MATERIAL</h3>
             <ul>
               <li><strong>Tin/Colorbond:</strong> Standard installation, most cost-effective</li>
-              <li><strong>Tile:</strong> Requires tile brackets, slightly higher installation cost</li>
-              <li><strong>Kliplok:</strong> Requires special clamps, may affect warranty</li>
+              <li><strong>Tile (Concrete/Terracotta):</strong> Requires tile brackets, slightly higher cost</li>
+              <li><strong>Kliplok:</strong> Special clamps needed, may affect system warranty</li>
+              <li><strong>Slate:</strong> Specialist installation, significantly higher cost</li>
             </ul>
             
             <h3>STOREY HEIGHT</h3>
+            <p>Height affects safety requirements and installation costs:</p>
             <ul>
-              <li>Single storey: Standard installation</li>
-              <li>Double storey: Additional safety equipment required</li>
-              <li>Three+ storeys: Specialist equipment, higher costs</li>
+              <li><strong>Single Storey:</strong> Standard installation procedures</li>
+              <li><strong>Double Storey:</strong> Additional safety equipment, 10-15% higher cost</li>
+              <li><strong>Three+ Storeys:</strong> Specialist equipment, custom quotation required</li>
             </ul>
             
-            <h3>ROOF PITCH</h3>
-            <p>Affects both safety requirements and system performance:</p>
+            <h3>ROOF PITCH & ORIENTATION</h3>
             <ul>
-              <li>Flat (<15°): May require tilt frames</li>
-              <li>Standard (15-30°): Optimal for most locations</li>
-              <li>Steep (>30°): Additional safety measures needed</li>
+              <li><strong>Flat (0-15°):</strong> May require tilt frames for optimal performance</li>
+              <li><strong>Standard (15-30°):</strong> Ideal for most Australian locations</li>
+              <li><strong>Steep (>30°):</strong> Additional safety measures, potential performance impact</li>
+            </ul>
+            
+            <h3>ADDITIONAL CONSIDERATIONS</h3>
+            <ul>
+              <li><strong>Shading:</strong> Trees, buildings, or structures affecting panel placement</li>
+              <li><strong>Roof Age:</strong> Roofs over 15 years may need inspection</li>
+              <li><strong>Access:</strong> Side access width for equipment (minimum 900mm)</li>
+              <li><strong>Switchboard:</strong> Location and upgrade requirements</li>
             </ul>
             
             <div class="tip-box">
-              <strong>Tip:</strong> Use Google Earth for preliminary roof assessments before site visits.
+              <strong>Tip:</strong> Use Google Earth or Nearmap for preliminary roof assessments. Look for optimal north-facing sections, check for shading, and estimate available roof space.
             </div>
           `
         },
@@ -197,66 +240,105 @@ export default {
           title: 'Package Selection',
           content: `
             <h3>CHOOSING THE RIGHT PACKAGE</h3>
-            <p>Package selection should balance customer needs, budget, and technical requirements:</p>
+            <p>The system displays recommended packages based on the customer's energy profile.</p>
             
-            <h3>SYSTEM SIZING</h3>
+            <h3>PACKAGE RECOMMENDATIONS</h3>
+            <p>Our AI analyses multiple factors to suggest optimal packages:</p>
             <ul>
-              <li>Review daily average consumption from bills</li>
-              <li>Consider roof space limitations</li>
-              <li>Factor in future energy needs</li>
-              <li>Check grid connection limits with DNSP</li>
+              <li><strong>Energy Consumption:</strong> Matched to usage patterns</li>
+              <li><strong>Roof Space:</strong> Maximum viable system size</li>
+              <li><strong>Budget Indicators:</strong> Value-focused vs premium options</li>
+              <li><strong>Payback Period:</strong> Optimised for fastest return on investment</li>
             </ul>
             
-            <h3>RECOMMENDED PACKAGES</h3>
-            <p>The system highlights recommended options based on:</p>
+            <h3>INTERACTIVE FEATURES</h3>
+            <p>The package selection interface includes:</p>
             <ul>
-              <li>Energy consumption patterns</li>
-              <li>Available roof space</li>
-              <li>Budget considerations</li>
-              <li>Payback period optimisation</li>
+              <li><strong>Comparison View:</strong> Side-by-side package specifications</li>
+              <li><strong>Savings Calculator:</strong> Projected savings over 10-25 years</li>
+              <li><strong>Finance Options:</strong> Monthly payment calculations</li>
+              <li><strong>Customisation:</strong> Adjust panel brands, inverter sizes, or battery capacity</li>
+            </ul>
+            
+            <h3>SALES COACH INTEGRATION</h3>
+            <p>Click "Ask Sales Coach" within any package to:</p>
+            <ul>
+              <li>Get detailed explanations of technical specifications</li>
+              <li>Understand why this package was recommended</li>
+              <li>Explore upgrade or downgrade options</li>
+              <li>Address specific customer concerns or questions</li>
             </ul>
             
             <h3>CUSTOMISATION OPTIONS</h3>
             <ul>
-              <li>Panel upgrades for premium efficiency</li>
-              <li>Inverter sizing for future expansion</li>
-              <li>Battery capacity based on evening usage</li>
-              <li>Monitoring and smart home integration</li>
+              <li><strong>Panel Selection:</strong> Economy, standard, or premium efficiency</li>
+              <li><strong>Inverter Sizing:</strong> Match to current needs or allow for expansion</li>
+              <li><strong>Battery Capacity:</strong> Based on evening consumption analysis</li>
+              <li><strong>Smart Features:</strong> Monitoring, optimisers, or EV charging</li>
             </ul>
+            
+            <div class="tip-box">
+              <strong>Tip:</strong> Always present 3 options: Good, Better, Best. This gives customers choice while guiding them toward the middle option, which typically offers the best value.
+            </div>
           `
         },
         {
           title: 'Quote Summary',
           content: `
-            <h3>REVIEWING THE QUOTE</h3>
-            <p>Before finalising, ensure all details are correct:</p>
+            <h3>FINALISING YOUR QUOTE</h3>
+            <p>Review all details before generating the final estimate.</p>
             
-            <h3>KEY ITEMS TO VERIFY</h3>
+            <h3>VERIFICATION CHECKLIST</h3>
+            <p>Before proceeding, verify:</p>
             <ul>
-              <li>Customer details and contact information</li>
-              <li>System specifications match discussions</li>
-              <li>Installation address is correct</li>
-              <li>All applicable rebates are included</li>
+              <li>✓ Customer contact details are correct</li>
+              <li>✓ System specifications match discussions</li>
+              <li>✓ Installation address is accurate</li>
+              <li>✓ All applicable rebates are included</li>
+              <li>✓ Finance options have been discussed</li>
+              <li>✓ Installation timeframe is understood</li>
             </ul>
             
-            <h3>FINANCIAL SUMMARY</h3>
+            <h3>QUOTE COMPONENTS</h3>
             <ul>
-              <li><strong>System Cost:</strong> Total equipment and installation</li>
-              <li><strong>Rebates:</strong> Federal and state incentives applied</li>
-              <li><strong>Net Cost:</strong> Final amount payable by customer</li>
-              <li><strong>Savings Estimate:</strong> Based on current usage and tariffs</li>
+              <li><strong>System Cost:</strong> Equipment and standard installation</li>
+              <li><strong>Additional Costs:</strong> Switchboard upgrades, tilt frames, etc.</li>
+              <li><strong>Rebates & Incentives:</strong> STCs, state rebates, feed-in tariffs</li>
+              <li><strong>Net Investment:</strong> Final amount after all rebates</li>
+              <li><strong>Savings Projection:</strong> 10-year savings based on current rates</li>
             </ul>
             
-            <h3>NEXT STEPS</h3>
+            <h3>GENERATING YOUR PACKAGES</h3>
+            <p>The system automatically:</p>
             <ul>
-              <li>Generate PDF quote for customer</li>
-              <li>Schedule follow-up within 48 hours</li>
-              <li>Book site inspection if proceeding</li>
-              <li>Prepare finance options if requested</li>
+              <li>Calculates accurate STC rebates based on postcode</li>
+              <li>Applies current state incentives and rebates</li>
+              <li>Generates professional PDF quotes</li>
+              <li>Sends quotes directly to customer email</li>
+              <li>Creates follow-up tasks in the CRM</li>
+            </ul>
+            
+            <h3>WHAT HAPPENS NEXT</h3>
+            <p>After quote generation:</p>
+            <ol>
+              <li><strong>Immediate:</strong> Customer receives email with quote PDF</li>
+              <li><strong>30 minutes:</strong> Follow-up SMS confirming receipt</li>
+              <li><strong>Day 1:</strong> Automated check-in email</li>
+              <li><strong>Day 3:</strong> Phone call scheduled for questions</li>
+              <li><strong>Week 1:</strong> Site inspection booking if proceeding</li>
+            </ol>
+            
+            <h3>POST-QUOTE ACTIONS</h3>
+            <ul>
+              <li>Schedule follow-up call within 48 hours</li>
+              <li>Prepare finance application if requested</li>
+              <li>Book site inspection for interested customers</li>
+              <li>Add to nurture campaign if not ready to proceed</li>
+              <li>Update CRM with interaction notes</li>
             </ul>
             
             <div class="tip-box">
-              <strong>Tip:</strong> Always offer to walk through the quote with the customer to address any questions.
+              <strong>Tip:</strong> Always offer to walk through the quote with the customer over the phone. This personal touch significantly increases conversion rates and allows you to address concerns immediately.
             </div>
           `
         }
@@ -501,6 +583,61 @@ export default {
   border-color: #FFE600;
 }
 
+/* Getting Started Section */
+.getting-started-section {
+  background: rgba(255, 230, 0, 0.1);
+  border: 1px solid rgba(255, 230, 0, 0.2);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.getting-started-section h2 {
+  color: #FFE600;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.getting-started-section p {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.getting-started-section ol {
+  list-style: none;
+  counter-reset: item;
+  padding-left: 0;
+}
+
+.getting-started-section ol li {
+  counter-increment: item;
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.getting-started-section ol li:before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #FFE600;
+  color: #001f3f;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
 /* Accordion styles */
 .accordion-section {
   margin-bottom: 1rem;
@@ -554,7 +691,7 @@ export default {
 
 .accordion-content.active {
   padding: 1.5rem;
-  max-height: 2000px;
+  max-height: 3000px;
 }
 
 .accordion-content >>> h3 {
@@ -577,6 +714,15 @@ export default {
 .accordion-content >>> ul {
   list-style: none;
   padding-left: 0;
+}
+
+.accordion-content >>> ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+.accordion-content >>> ol li {
+  padding-left: 0.5rem;
 }
 
 .accordion-content >>> ul li {
