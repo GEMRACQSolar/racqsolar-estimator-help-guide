@@ -52,7 +52,7 @@
           <h2>Getting Started</h2>
           <p>To generate an estimate that shows savings, system performance, and ROI - the below sections are required at minimum:</p>
           <ol>
-            <li><strong>Personal Information</strong> - all customer data fields but be entered</li>
+            <li><strong>Personal Information</strong> - all customer data fields must be entered</li>
             <li><strong>System Preferences & Energy Usage</strong> - 'What type of system are you interested in?' and 'Monthly Energy Bill are required fields'</li>
             <li><strong>Package Selection</strong> - A selected package is required. The estimator will provide a recommended package</li>
             <li><strong>House Details</strong> - Not required but helpful for providing context to the  AI sales coach</li>
