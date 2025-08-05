@@ -50,13 +50,13 @@
         <!-- Getting Started Section -->
         <div class="getting-started-section">
           <h2>Getting Started</h2>
-          <p>To generate an accurate solar estimate for your customer, you'll need to complete the following sections:</p>
+          <p>To generate an estimate that shows savings, system performance, and ROI - the below sections are required at minimum:</p>
           <ol>
-            <li><strong>Personal Information</strong> - Customer contact details</li>
-            <li><strong>System Preferences & Energy Usage</strong> - Power consumption and system requirements</li>
-            <li><strong>House Details</strong> - Property specifications for installation</li>
-            <li><strong>Package Selection</strong> - Choose from recommended solar packages</li>
-            <li><strong>Quote Summary</strong> - Review and finalise the estimate</li>
+            <li><strong>Personal Information</strong> - all customer data fields but be entered</li>
+            <li><strong>System Preferences & Energy Usage</strong> - 'What type of system are you interested in?' and 'Monthly Energy Bill are required fields'</li>
+            <li><strong>Package Selection</strong> - A selected package is required. The estimator will provide a recommended package</li>
+            <li><strong>House Details</strong> - Not required but helpful for providing context to the  AI sales coach</li>
+            <li><strong>Quote Summary</strong> - Click 'Update Summary' to pull all data entered into the form into the Quote Summary section. When ready, click 'Generate quote' to create the estimate - ready for sending to the customer</li>
           </ol>
         </div>
 
@@ -137,17 +137,6 @@ export default {
             <ul>
               <li><strong>Required Fields:</strong> First Name, Last Name, Email, Phone, and Postcode</li>
               <li>Email address must be valid - quotes are automatically sent to this address</li>
-              <li>Phone number should include area code for SMS notifications</li>
-              <li>Postcode determines available rebates and solar zone classifications</li>
-            </ul>
-            
-            <h3>ADDITIONAL INFORMATION</h3>
-            <p>Optional fields that enhance customer experience:</p>
-            <ul>
-              <li><strong>Secondary Contact:</strong> Alternative person for installation coordination</li>
-              <li><strong>Preferred Contact Method:</strong> Email, phone, or SMS preferences</li>
-              <li><strong>Referral Source:</strong> Track marketing effectiveness</li>
-              <li><strong>Special Requirements:</strong> Accessibility needs or site-specific considerations</li>
             </ul>
             
             <div class="tip-box">
@@ -169,20 +158,12 @@ export default {
             <h3>USING THE SALES COACH</h3>
             <p>The Sales Coach AI assistant requires specific information to generate optimal recommendations:</p>
             <ul>
-              <li><strong>Energy Usage Data:</strong> Enter accurate kWh consumption from recent bills</li>
-              <li><strong>Usage Patterns:</strong> Specify when electricity is primarily used (day/evening)</li>
+              <li><strong>System Preference & Energy Usage Data:</strong> 'What type of system are you interested in?' and 'Monthly Energy Bill are required fields'</li>
+              <li><strong>Usage Patterns:</strong> Specify when electricity is primarily used (day/evening, both)</li>
               <li><strong>Future Needs:</strong> Consider upcoming changes (pool, EV, home office)</li>
             </ul>
-            <p>Click "Chat with Sales Coach" to receive personalised system recommendations based on the customer's specific situation.</p>
-            
-            <h3>ENERGY CONSUMPTION ANALYSIS</h3>
-            <p>Accurate usage data ensures correct system sizing:</p>
-            <ul>
-              <li>Request the last 4 electricity bills for seasonal variations</li>
-              <li>Calculate daily average: Total kWh ÷ billing days</li>
-              <li>Note any unusual consumption periods (holidays, renovations)</li>
-              <li>Consider future energy needs: EVs, pools, home extensions</li>
-            </ul>
+            <p>Click 'Share data with sales coach' to receive advice feedback on the system recommendations based on the customer's specific situation.</p>
+            <p>You can type questions to the coach directly, for example it can offer suggestions on selling techniques, or you can use the dynamic questions (quicker than typing)</p>
             
             <h3>TIME OF USE PATTERNS</h3>
             <p>Understanding when energy is consumed optimises system design:</p>
@@ -313,29 +294,18 @@ export default {
             <ul>
               <li>Calculates accurate STC rebates based on postcode</li>
               <li>Applies current state incentives and rebates</li>
-              <li>Generates professional PDF quotes</li>
-              <li>Sends quotes directly to customer email</li>
-              <li>Creates follow-up tasks in the CRM</li>
+              <li>Sends estimate directly to customer email</li>
             </ul>
             
             <h3>WHAT HAPPENS NEXT</h3>
-            <p>After quote generation:</p>
+            <p>After the Estimate has been emailed:</p>
             <ol>
-              <li><strong>Immediate:</strong> Customer receives email with quote PDF</li>
-              <li><strong>30 minutes:</strong> Follow-up SMS confirming receipt</li>
-              <li><strong>Day 1:</strong> Automated check-in email</li>
-              <li><strong>Day 3:</strong> Phone call scheduled for questions</li>
-              <li><strong>Week 1:</strong> Site inspection booking if proceeding</li>
+              <li><strong>Immediate:</strong> Customer receives Estimate email</li>
+              <li><strong>Request for formal proposal:</strong> The customer can click 'Request formal Proposal' in the email</li>
+              <li>If the customer clicks 'Request formal Proposal', they are redirected to a thank you page</li>
+              <li>An Internal alert is sent to the Sales Team</li>
+              <li>An RACQ Solar consultant will create a formal proposal within 2 working days, and will contact the customer</li>
             </ol>
-            
-            <h3>POST-QUOTE ACTIONS</h3>
-            <ul>
-              <li>Schedule follow-up call within 48 hours</li>
-              <li>Prepare finance application if requested</li>
-              <li>Book site inspection for interested customers</li>
-              <li>Add to nurture campaign if not ready to proceed</li>
-              <li>Update CRM with interaction notes</li>
-            </ul>
             
             <div class="tip-box">
               <strong>Tip:</strong> Always offer to walk through the quote with the customer over the phone. This personal touch significantly increases conversion rates and allows you to address concerns immediately.
