@@ -50,13 +50,13 @@
         <!-- Getting Started Section -->
         <div class="getting-started-section">
           <h2>Getting Started</h2>
-          <p>To generate an estimate that shows savings, system performance, and ROI - the below sections are required at minimum:</p>
+          <p>To generate an estimate that shows savings, system performance, and ROI, the following sections are required at minimum:</p>
           <ol>
-            <li><strong>Personal Information</strong> - all customer data fields must be entered</li>
-            <li><strong>System Preferences & Energy Usage</strong> - 'What type of system are you interested in?' and 'Monthly Energy Bill are required fields'</li>
+            <li><strong>Personal Information</strong> - All customer data fields must be entered</li>
+            <li><strong>System Preferences &amp; Energy Usage</strong> - 'What type of system are you interested in?' and 'Monthly Energy Bill' are required fields</li>
             <li><strong>Package Selection</strong> - A selected package is required. The estimator will provide a recommended package</li>
-            <li><strong>House Details</strong> - Not required but helpful for providing context to the  AI sales coach</li>
-            <li><strong>Quote Summary</strong> - Click 'Update Summary' to pull all data entered into the form into the Quote Summary section. When ready, click 'Generate quote' to create the estimate - ready for sending to the customer</li>
+            <li><strong>House Details</strong> - Not required but helpful for providing context to the AI sales coach</li>
+            <li><strong>Quote Summary</strong> - Click 'Update Summary' to compile all entered data into the Quote Summary section. When ready, click 'Generate quote' to create the estimate for sending to the customer</li>
           </ol>
         </div>
 
@@ -158,17 +158,17 @@ export default {
             <h3>USING THE SALES COACH</h3>
             <p>The Sales Coach AI assistant requires specific information to generate optimal recommendations:</p>
             <ul>
-              <li><strong>System Preference & Energy Usage Data:</strong> 'What type of system are you interested in?' and 'Monthly Energy Bill are required fields'</li>
+              <li><strong>System Preference &amp; Energy Usage Data:</strong> 'What type of system are you interested in?' and 'Monthly Energy Bill' are required fields</li>
               <li><strong>Usage Patterns:</strong> Specify when electricity is primarily used (day/evening, both)</li>
               <li><strong>Future Needs:</strong> Consider upcoming changes (pool, EV, home office)</li>
             </ul>
-            <p>Click 'Share data with sales coach' to receive advice feedback on the system recommendations based on the customer's specific situation.</p>
-            <p>You can type questions to the coach directly, for example it can offer suggestions on selling techniques, or you can use the dynamic questions (quicker than typing)</p>
+            <p>Click 'Share data with sales coach' to receive advice and feedback on the system recommendations based on the customer's specific situation.</p>
+            <p>You can type questions to the coach directly. For example, it can offer suggestions on selling techniques, or you can use the dynamic questions (quicker than typing).</p>
             
             <h3>TIME OF USE PATTERNS</h3>
-            <p>Understanding when energy is consumed optimises system design:</p>
+            <p>Understanding when energy is consumed optimizes system design:</p>
             <ul>
-              <li><strong>High Daytime Use:</strong> Larger solar arrays maximise self-consumption</li>
+              <li><strong>High Daytime Use:</strong> Larger solar arrays maximize self-consumption</li>
               <li><strong>Evening/Night Use:</strong> Battery storage essential for savings</li>
               <li><strong>Mixed Usage:</strong> Balanced system with moderate battery capacity</li>
               <li>Consider work-from-home arrangements and lifestyle changes</li>
@@ -181,7 +181,7 @@ export default {
             <h3>PROPERTY SPECIFICATIONS</h3>
             <p>Accurate property details ensure installation feasibility and correct pricing.</p>
             
-            <h3>ROOF TYPE & MATERIAL</h3>
+            <h3>ROOF TYPE &amp; MATERIAL</h3>
             <ul>
               <li><strong>Tin/Colorbond:</strong> Standard installation, most cost-effective</li>
               <li><strong>Tile (Concrete/Terracotta):</strong> Requires tile brackets, slightly higher cost</li>
@@ -197,11 +197,11 @@ export default {
               <li><strong>Three+ Storeys:</strong> Specialist equipment, custom quotation required</li>
             </ul>
             
-            <h3>ROOF PITCH & ORIENTATION</h3>
+            <h3>ROOF PITCH &amp; ORIENTATION</h3>
             <ul>
               <li><strong>Flat (0-15°):</strong> May require tilt frames for optimal performance</li>
               <li><strong>Standard (15-30°):</strong> Ideal for most Australian locations</li>
-              <li><strong>Steep (>30°):</strong> Additional safety measures, potential performance impact</li>
+              <li><strong>Steep (&gt;30°):</strong> Additional safety measures, potential performance impact</li>
             </ul>
             
             <h3>ADDITIONAL CONSIDERATIONS</h3>
@@ -224,12 +224,12 @@ export default {
             <p>The system displays recommended packages based on the customer's energy profile.</p>
             
             <h3>PACKAGE RECOMMENDATIONS</h3>
-            <p>Our AI analyses multiple factors to suggest optimal packages:</p>
+            <p>Our AI analyzes multiple factors to suggest optimal packages:</p>
             <ul>
               <li><strong>Energy Consumption:</strong> Matched to usage patterns</li>
               <li><strong>Roof Space:</strong> Maximum viable system size</li>
               <li><strong>Budget Indicators:</strong> Value-focused vs premium options</li>
-              <li><strong>Payback Period:</strong> Optimised for fastest return on investment</li>
+              <li><strong>Payback Period:</strong> Optimized for fastest return on investment</li>
             </ul>
             
             <h3>INTERACTIVE FEATURES</h3>
@@ -238,7 +238,7 @@ export default {
               <li><strong>Comparison View:</strong> Side-by-side package specifications</li>
               <li><strong>Savings Calculator:</strong> Projected savings over 10-25 years</li>
               <li><strong>Finance Options:</strong> Monthly payment calculations</li>
-              <li><strong>Customisation:</strong> Adjust panel brands, inverter sizes, or battery capacity</li>
+              <li><strong>Customization:</strong> Adjust panel brands, inverter sizes, or battery capacity</li>
             </ul>
             
             <h3>SALES COACH INTEGRATION</h3>
@@ -250,12 +250,12 @@ export default {
               <li>Address specific customer concerns or questions</li>
             </ul>
             
-            <h3>CUSTOMISATION OPTIONS</h3>
+            <h3>CUSTOMIZATION OPTIONS</h3>
             <ul>
               <li><strong>Panel Selection:</strong> Economy, standard, or premium efficiency</li>
               <li><strong>Inverter Sizing:</strong> Match to current needs or allow for expansion</li>
               <li><strong>Battery Capacity:</strong> Based on evening consumption analysis</li>
-              <li><strong>Smart Features:</strong> Monitoring, optimisers, or EV charging</li>
+              <li><strong>Smart Features:</strong> Monitoring, optimizers, or EV charging</li>
             </ul>
             
             <div class="tip-box">
@@ -266,7 +266,7 @@ export default {
         {
           title: 'Quote Summary',
           content: `
-            <h3>FINALISING YOUR QUOTE</h3>
+            <h3>FINALIZING YOUR QUOTE</h3>
             <p>Review all details before generating the final estimate.</p>
             
             <h3>VERIFICATION CHECKLIST</h3>
@@ -284,7 +284,7 @@ export default {
             <ul>
               <li><strong>System Cost:</strong> Equipment and standard installation</li>
               <li><strong>Additional Costs:</strong> Switchboard upgrades, tilt frames, etc.</li>
-              <li><strong>Rebates & Incentives:</strong> STCs, state rebates, feed-in tariffs</li>
+              <li><strong>Rebates &amp; Incentives:</strong> STCs, state rebates, feed-in tariffs</li>
               <li><strong>Net Investment:</strong> Final amount after all rebates</li>
               <li><strong>Savings Projection:</strong> 10-year savings based on current rates</li>
             </ul>
@@ -298,13 +298,13 @@ export default {
             </ul>
             
             <h3>WHAT HAPPENS NEXT</h3>
-            <p>After the Estimate has been emailed:</p>
+            <p>After the estimate has been emailed:</p>
             <ol>
-              <li><strong>Immediate:</strong> Customer receives Estimate email</li>
+              <li><strong>Immediate:</strong> Customer receives estimate email</li>
               <li><strong>Request for formal proposal:</strong> The customer can click 'Request formal Proposal' in the email</li>
               <li>If the customer clicks 'Request formal Proposal', they are redirected to a thank you page</li>
-              <li>An Internal alert is sent to the Sales Team</li>
-              <li>An RACQ Solar consultant will create a formal proposal within 2 working days, and will contact the customer</li>
+              <li>An internal alert is sent to the Sales Team</li>
+              <li>A RACQ Solar consultant will create a formal proposal within 2 working days and will contact the customer</li>
             </ol>
             
             <div class="tip-box">
