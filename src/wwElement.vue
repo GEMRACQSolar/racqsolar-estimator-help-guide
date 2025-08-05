@@ -166,9 +166,9 @@ export default {
             <p>You can type questions to the coach directly. For example, it can offer suggestions on selling techniques, or you can use the dynamic questions (quicker than typing).</p>
             
             <h3>TIME OF USE PATTERNS</h3>
-            <p>Understanding when energy is consumed optimizes system design:</p>
+            <p>Understanding when energy is consumed optimises system design:</p>
             <ul>
-              <li><strong>High Daytime Use:</strong> Larger solar arrays maximize self-consumption</li>
+              <li><strong>High Daytime Use:</strong> Larger solar arrays maximise self-consumption</li>
               <li><strong>Evening/Night Use:</strong> Battery storage essential for savings</li>
               <li><strong>Mixed Usage:</strong> Balanced system with moderate battery capacity</li>
               <li>Consider work-from-home arrangements and lifestyle changes</li>
@@ -224,12 +224,12 @@ export default {
             <p>The system displays recommended packages based on the customer's energy profile.</p>
             
             <h3>PACKAGE RECOMMENDATIONS</h3>
-            <p>Our AI analyzes multiple factors to suggest optimal packages:</p>
+            <p>Our AI analyses multiple factors to suggest optimal packages:</p>
             <ul>
               <li><strong>Energy Consumption:</strong> Matched to usage patterns</li>
               <li><strong>Roof Space:</strong> Maximum viable system size</li>
               <li><strong>Budget Indicators:</strong> Value-focused vs premium options</li>
-              <li><strong>Payback Period:</strong> Optimized for fastest return on investment</li>
+              <li><strong>Payback Period:</strong> Optimised for fastest return on investment</li>
             </ul>
             
             <h3>INTERACTIVE FEATURES</h3>
@@ -238,7 +238,7 @@ export default {
               <li><strong>Comparison View:</strong> Side-by-side package specifications</li>
               <li><strong>Savings Calculator:</strong> Projected savings over 10-25 years</li>
               <li><strong>Finance Options:</strong> Monthly payment calculations</li>
-              <li><strong>Customization:</strong> Adjust panel brands, inverter sizes, or battery capacity</li>
+              <li><strong>Customisation:</strong> Adjust panel brands, inverter sizes, or battery capacity</li>
             </ul>
             
             <h3>SALES COACH INTEGRATION</h3>
@@ -249,24 +249,12 @@ export default {
               <li>Explore upgrade or downgrade options</li>
               <li>Address specific customer concerns or questions</li>
             </ul>
-            
-            <h3>CUSTOMIZATION OPTIONS</h3>
-            <ul>
-              <li><strong>Panel Selection:</strong> Economy, standard, or premium efficiency</li>
-              <li><strong>Inverter Sizing:</strong> Match to current needs or allow for expansion</li>
-              <li><strong>Battery Capacity:</strong> Based on evening consumption analysis</li>
-              <li><strong>Smart Features:</strong> Monitoring, optimizers, or EV charging</li>
-            </ul>
-            
-            <div class="tip-box">
-              <strong>Tip:</strong> Always present 3 options: Good, Better, Best. This gives customers choice while guiding them toward the middle option, which typically offers the best value.
-            </div>
           `
         },
         {
           title: 'Quote Summary',
           content: `
-            <h3>FINALIZING YOUR QUOTE</h3>
+            <h3>FINALIsING YOUR QUOTE</h3>
             <p>Review all details before generating the final estimate.</p>
             
             <h3>VERIFICATION CHECKLIST</h3>
